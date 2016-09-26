@@ -10,7 +10,7 @@ var autoprefixer = require('autoprefixer');
 module.exports = {
   entry: './app/index.js',
   output: {
-    path: 'build',
+    path: 'doc',
     filename: 'bundle.js'
   },
   resolve: {
@@ -20,6 +20,10 @@ module.exports = {
   },
   module: {
     loaders: [
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: 'url?limit=10000!img?progressive=true'
+      },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract('css!postcss')

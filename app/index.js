@@ -1,18 +1,15 @@
 import m from 'mithril';
-
-import { bindRoutes } from 'app/routes';
+import Canvas from 'app/views/Canvas';
 
 import 'normalize.css';
 
 function mountApplication() {
   const el = document.getElementById('app');
-  bindRoutes(el);
-  m.route(m.route());
+  m.mount(el, m(Canvas));
 }
 
 function init() {
   require('app/styles/style.less');
-  require('app/actions');
 
   mountApplication();
 }
