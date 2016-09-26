@@ -111,12 +111,36 @@ const Canvas = {
       }
     }
 
+    ctrl.threshold = m.prop(100);
+
+    function threshold(threshold, rgb) {
+      const [ r, g, b ] = rgb;
+      if(r * g * b > Math.pow(threshold, 3)) {
+        return [ 255, 255, 255 ];
+      }
+      return [ 0, 0, 0 ];
+    }
+
+    function thresholding(ctx) {
+      for(let i = 0; i < WIDTH; i++) {
+        for(let j =  0; j < HEIGHT; j++) {
+          const origRGBA = readPixelData(ctx, i, j);
+          const [ r, g, b ] = threshold(ctrl.threshold(), origRGBA);
+          drawPixel(ctx, i, j, [ r, g, b, origRGBA[3] ]);
+        }
+      }
+    }
+
     ctrl.dimmer = () => {
       lowerOpactiy(ctx);
     };
 
     ctrl.brighter = () => {
       increaseOpactiy(ctx);
+    };
+
+    ctrl.thresholding = () => {
+      thresholding(ctx);
     };
 
     ctrl.filter = () => {
@@ -133,6 +157,14 @@ const Canvas = {
       m('br'),
       m('button', {onclick: ctrl.dimmer}, 'dimmer'),
       m('button', {onclick: ctrl.brighter}, 'brighter'),
+      m('br'),
+      m('span', 'threshold:'),
+      m('input', {
+        value: ctrl.threshold(),
+        oninput: m.withAttr('value', ctrl.threshold),
+      }),
+      m('button', {onclick: ctrl.thresholding}, 'threshold'),
+      m('br'),
       m('button', {onclick: ctrl.filter}, 'apply conv matrix'),
       m('br'),
       ctrl.conv_matrix.map((row, i) => {
