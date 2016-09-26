@@ -8,11 +8,11 @@ module.exports = {
   entry: './app/index.js',
   devtool: 'source-map',
   output: {
-    path: 'doc',
+    path: 'docs',
     filename: 'bundle.js'
   },
   devServer: {
-    contentBase: 'doc'
+    contentBase: 'docs'
   },
   resolve: {
     alias: {
